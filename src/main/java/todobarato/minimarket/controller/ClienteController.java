@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/clientes")
+@RequestMapping("/todobarato/clientes")
 public class ClienteController {
     
     @Autowired
@@ -49,7 +49,7 @@ public class ClienteController {
             Cliente cliente = clienteRepository.findById(id).orElse(null);
             if (cliente == null || cliente.getEstado() == 0) {
                 redirectAttributes.addFlashAttribute("error", "Cliente no encontrado");
-                return "redirect:/clientes";
+                return "redirect:/todobarato/clientes";
             }
             
             model.addAttribute("cliente", cliente);
@@ -58,7 +58,7 @@ public class ClienteController {
             
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Error al cargar cliente: " + e.getMessage());
-            return "redirect:/clientes";
+            return "redirect:/todobarato/clientes";
         }
         
         return "clientes/formulario";
@@ -81,14 +81,14 @@ public class ClienteController {
             if (cliente.getDni() != null && !cliente.getDni().trim().isEmpty()) {
                 if (cliente.getDni().length() != 8) {
                     redirectAttributes.addFlashAttribute("error", "El DNI debe tener 8 dígitos");
-                    return "redirect:/clientes/nuevo";
+                    return "redirect:/todobarato/clientes/nuevo";
                 }
                 
                 // Verificar DNI duplicado
                 Cliente clienteExistente = clienteRepository.findByDni(cliente.getDni());
                 if (clienteExistente != null && !clienteExistente.getIdCliente().equals(cliente.getIdCliente())) {
                     redirectAttributes.addFlashAttribute("error", "Ya existe un cliente con ese DNI");
-                    return "redirect:/clientes/nuevo";
+                    return "redirect:/todobarato/clientes/nuevo";
                 }
             }
             
@@ -110,7 +110,7 @@ public class ClienteController {
             redirectAttributes.addFlashAttribute("error", "Error al guardar cliente: " + e.getMessage());
         }
         
-        return "redirect:/clientes";
+        return "redirect:/todobarato/clientes";
     }
     
     @GetMapping("/eliminar/{id}")
@@ -118,7 +118,6 @@ public class ClienteController {
         try {
             Cliente cliente = clienteRepository.findById(id).orElse(null);
             if (cliente != null) {
-                // Eliminación lógica
                 cliente.setEstado(0);
                 cliente.actualizarFechaModificacion();
                 clienteRepository.save(cliente);
@@ -131,6 +130,6 @@ public class ClienteController {
             redirectAttributes.addFlashAttribute("error", "Error al eliminar cliente: " + e.getMessage());
         }
         
-        return "redirect:/clientes";
+        return "redirect:/todobarato/clientes";
     }
 }

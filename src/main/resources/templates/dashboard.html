@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - TODO BARATO</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <style>
         :root {
             --todo-barato-primary: #2563eb;
@@ -103,11 +103,6 @@
                                 <h5 class="card-title text-uppercase text-muted mb-0">Productos</h5>
                                 <span class="h2 font-weight-bold mb-0" th:text="${totalProductos}">0</span>
                             </div>
-                            <div class="col-auto">
-                                <div class="icon icon-shape bg-primary text-white rounded-circle shadow">
-                                    <i class="fas fa-box"></i>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -121,11 +116,6 @@
                                 <h5 class="card-title text-uppercase text-muted mb-0">Clientes</h5>
                                 <span class="h2 font-weight-bold mb-0" th:text="${totalClientes}">0</span>
                             </div>
-                            <div class="col-auto">
-                                <div class="icon icon-shape bg-success text-white rounded-circle shadow">
-                                    <i class="fas fa-users"></i>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -138,11 +128,6 @@
                             <div class="col">
                                 <h5 class="card-title text-uppercase text-muted mb-0">Categorías</h5>
                                 <span class="h2 font-weight-bold mb-0" th:text="${totalCategorias}">0</span>
-                            </div>
-                            <div class="col-auto">
-                                <div class="icon icon-shape bg-info text-white rounded-circle shadow">
-                                    <i class="fas fa-tags"></i>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -213,7 +198,7 @@
             </div>
         </div>
 
-        <!-- Información adicional -->
+        <!-- Info adicional -->
         <div class="row">
             <div class="col-lg-8">
                 <div class="card border-0 shadow-sm">
@@ -279,7 +264,9 @@
                             </div>
                         </div>
                         <div th:if="${clientesRecientes == null or clientesRecientes.empty}" class="text-center text-muted">
-                            <i class="fas fa-users fa-3x mb-3"></i>
+							<div class="text-center mb-3">
+							    <i class="fas fa-users fa-2x text-secondary"></i>
+							</div>
                             <p>No hay clientes registrados</p>
                         </div>
                     </div>

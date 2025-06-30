@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping("/productos")
+@RequestMapping("/todobarato/productos")
 public class ProductoController {
     
     @Autowired
@@ -60,7 +60,7 @@ public class ProductoController {
             Producto producto = productoRepository.findById(codigo).orElse(null);
             if (producto == null || producto.getEstado() == 0) {
                 redirectAttributes.addFlashAttribute("error", "Producto no encontrado");
-                return "redirect:/productos";
+                return "redirect:/todobarato/productos";
             }
             
             model.addAttribute("producto", producto);
@@ -71,7 +71,7 @@ public class ProductoController {
             
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Error al cargar producto: " + e.getMessage());
-            return "redirect:/productos";
+            return "redirect:/todobarato/productos";
         }
         
         return "productos/formulario";
@@ -83,17 +83,17 @@ public class ProductoController {
             // Validaciones básicas
             if (producto.getCodigo() == null || producto.getCodigo().trim().isEmpty()) {
                 redirectAttributes.addFlashAttribute("error", "El código del producto es obligatorio");
-                return "redirect:/productos/nuevo";
+                return "redirect:/todobarato/productos/nuevo";
             }
             
             if (producto.getNombre() == null || producto.getNombre().trim().isEmpty()) {
                 redirectAttributes.addFlashAttribute("error", "El nombre del producto es obligatorio");
-                return "redirect:/productos/nuevo";
+                return "redirect:/todobarato/productos/nuevo";
             }
             
             if (producto.getPrecio() == null || producto.getPrecio().doubleValue() <= 0) {
                 redirectAttributes.addFlashAttribute("error", "El precio debe ser mayor a 0");
-                return "redirect:/productos/nuevo";
+                return "redirect:/todobarato/productos/nuevo";
             }
             
             // Verificar si es nuevo o actualización
@@ -114,7 +114,7 @@ public class ProductoController {
             redirectAttributes.addFlashAttribute("error", "Error al guardar producto: " + e.getMessage());
         }
         
-        return "redirect:/productos";
+        return "redirect:/todobarato/productos";
     }
     
     @GetMapping("/eliminar/{codigo}")
@@ -135,7 +135,7 @@ public class ProductoController {
             redirectAttributes.addFlashAttribute("error", "Error al eliminar producto: " + e.getMessage());
         }
         
-        return "redirect:/productos";
+        return "redirect:/todobarato/productos";
     }
     
     @GetMapping("/stock-bajo")
@@ -148,6 +148,8 @@ public class ProductoController {
         } catch (Exception e) {
             model.addAttribute("error", "Error al cargar productos con stock bajo: " + e.getMessage());
         }
+        
+        model.addAttribute("productosStockBajo", productoRepository.findProductosStockBajo());
         
         return "productos/listar";
     }

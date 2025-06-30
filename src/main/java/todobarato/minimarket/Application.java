@@ -5,7 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class Application {
-
 	public static void main(String[] args) {
 		System.out.println("===========================================");
 		System.out.println("    INICIANDO SISTEMA TODO BARATO");
@@ -17,8 +16,7 @@ public class Application {
 		
 		System.out.println("===========================================");
 		System.out.println("	SISTEMA TODO BARATO INICIADO");
-		System.out.println("	Entra a la web aquí: http://localhost:8080/todobarato");
+		System.out.println("	Entra a la web aquí: http://localhost:8080/todobarato/dashboard");
 		System.out.println("===========================================");
 	}
-
 }
