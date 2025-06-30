@@ -29,6 +29,17 @@ Minimarket TODO BARATO es una aplicación web para gestión de inventario, cli
 
 ### Para correr el proyecto
 
+## Estructura del proyecto
+src/
+└── main/
+    ├── java/todobarato/minimarket/controller
+    ├── model
+    ├── repository
+    └── resources/templates
+        ├── dashboard.html
+        ├── productos/
+        └── clientes/
+
 ```bash
 git clone https://github.com/JuanB5/minimarket-todobarato.git
 cd minimarket-todobarato
