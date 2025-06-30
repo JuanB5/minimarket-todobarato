@@ -23,9 +23,9 @@ Minimarket TODO BARATO es una aplicación web para gestión de inventario, cli
 ### Requisitos previos
 
 - Java 17 (o compatible con tu versión de Spring Boot)
-- Maven o Gradle (según configuración)
-- Base de datos configurada (H2, MySQL, PostgreSQL, etc.)
-- Variables de entorno o `application.properties` bien configuradas
+- Maven
+- Base de datos configurada (MySQL)
+- `application.properties` bien configurado
 
 ## Base de Datos
 La base de datos se encuentra en la carpeta `/database` como un archivo SQL que puedes importar con:
