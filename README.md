@@ -1,6 +1,10 @@
+# Minimarket TODO BARATO
+
 Minimarket TODO BARATO es una aplicación web para gestión de inventario, clientes, productos y categorías en un minimarket, desarrollada con **Spring Boot**, **Thymeleaf**, **Hibernate/JPA** y **Bootstrap 5**.
 
-Características principales
+---
+
+## Características principales
 
 - **Dashboard** con estadísticas globales de productos, clientes y categoría.
 - Gestión completa de **productos**:
@@ -14,7 +18,7 @@ Características principales
 
 ---
 
-Cómo ejecutarlo localmente
+## Cómo ejecutarlo localmente
 
 ### Requisitos previos
 
