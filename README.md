@@ -27,20 +27,17 @@ Minimarket TODO BARATO es una aplicación web para gestión de inventario, cli
 - Base de datos configurada (H2, MySQL, PostgreSQL, etc.)
 - Variables de entorno o `application.properties` bien configuradas
 
+## Base de Datos
+La base de datos se encuentra en la carpeta `/database` como un archivo SQL que puedes importar con:
+
+```bash
+mysql -u usuario -p minimarket < database/minimarket.sql
+```
+
 ### Para correr el proyecto
-
-## Estructura del proyecto
-src/
-└── main/
-    ├── java/todobarato/minimarket/controller
-    ├── model
-    ├── repository
-    └── resources/templates
-        ├── dashboard.html
-        ├── productos/
-        └── clientes/
-
 ```bash
 git clone https://github.com/JuanB5/minimarket-todobarato.git
 cd minimarket-todobarato
 ./mvnw spring-boot:run
+```
+
