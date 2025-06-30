@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - TODO BARATO</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --todo-barato-primary: #2563eb;
+            --todo-barato-secondary: #16a34a;
+            --todo-barato-accent: #f59e0b;
+        }
+        
+        .navbar-brand {
+            font-weight: bold;
+            color: var(--todo-barato-primary) !important;
+        }
+        
+        .card-stats {
+            border-left: 4px solid var(--todo-barato-primary);
+            transition: transform 0.2s;
+        }
+        
+        .card-stats:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .alert-stock {
+            border-left: 4px solid #dc3545;
+        }
+        
+        .footer-todobarato {
+            background-color: var(--todo-barato-primary);
+            color: white;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body class="bg-light">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="/todobarato/dashboard">
+                <i class="fas fa-store me-2"></i>TODO BARATO
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/todobarato/dashboard">
+                            <i class="fas fa-tachometer-alt me-1"></i>Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/todobarato/productos">
+                            <i class="fas fa-box me-1"></i>Productos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/todobarato/clientes">
+                            <i class="fas fa-users me-1"></i>Clientes
+                        </a>
+                    </li>
+                </ul>
+                <span class="navbar-text">
+                    <i class="fas fa-map-marker-alt me-1"></i>Av. Universitaria, Los Olivos
+                </span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- Header -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <h1 class="h3 mb-0">
+                    <i class="fas fa-tachometer-alt text-primary me-2"></i>
+                    Dashboard TODO BARATO
+                </h1>
+                <p class="text-muted">Sistema de Inventario - Minimarket</p>
+            </div>
+        </div>
+
+        <!-- Alertas -->
+        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            <span th:text="${error}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <!-- Estadísticas principales -->
+        <div class="row mb-4">
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card card-stats border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="card-title text-uppercase text-muted mb-0">Productos</h5>
+                                <span class="h2 font-weight-bold mb-0" th:text="${totalProductos}">0</span>
+                            </div>
+                            <div class="col-auto">
+                                <div class="icon icon-shape bg-primary text-white rounded-circle shadow">
+                                    <i class="fas fa-box"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card card-stats border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="card-title text-uppercase text-muted mb-0">Clientes</h5>
+                                <span class="h2 font-weight-bold mb-0" th:text="${totalClientes}">0</span>
+                            </div>
+                            <div class="col-auto">
+                                <div class="icon icon-shape bg-success text-white rounded-circle shadow">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card card-stats border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="card-title text-uppercase text-muted mb-0">Categorías</h5>
+                                <span class="h2 font-weight-bold mb-0" th:text="${totalCategorias}">0</span>
+                            </div>
+                            <div class="col-auto">
+                                <div class="icon icon-shape bg-info text-white rounded-circle shadow">
+                                    <i class="fas fa-tags"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card card-stats border-0 shadow-sm alert-stock" th:if="${productosStockBajo > 0}">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col">
+                                <h5 class="card-title text-uppercase text-muted mb-0">Stock Bajo</h5>
+                                <span class="h2 font-weight-bold mb-0 text-danger" th:text="${productosStockBajo}">0</span>
+                            </div>
+                            <div class="col-auto">
+                                <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alertas de Stock -->
+        <div th:if="${alertasStock != null and !alertasStock.empty}" class="row mb-4">
+            <div class="col-12">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-danger text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            Alertas de Stock Bajo
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Código</th>
+                                        <th>Producto</th>
+                                        <th>Stock Actual</th>
+                                        <th>Stock Mínimo</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="producto : ${alertasStock}">
+                                        <td th:text="${producto.codigo}"></td>
+                                        <td th:text="${producto.nombre}"></td>
+                                        <td>
+                                            <span class="badge bg-danger" th:text="${producto.stock}"></span>
+                                        </td>
+                                        <td th:text="${producto.stockMinimo}"></td>
+                                        <td>
+                                            <a th:href="@{/todobarato/productos/editar/{codigo}(codigo=${producto.codigo})}" 
+                                               class="btn btn-sm btn-outline-primary">
+                                                <i class="fas fa-edit"></i> Actualizar
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Información adicional -->
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-chart-line me-2"></i>
+                            Productos Más Vendidos
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div th:if="${productosMasVendidos != null and !productosMasVendidos.empty}">
+                            <div class="table-responsive">
+                                <table class="table table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>Código</th>
+                                            <th>Producto</th>
+                                            <th>Precio</th>
+                                            <th>Stock</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="producto : ${productosMasVendidos}">
+                                            <td th:text="${producto.codigo}"></td>
+                                            <td th:text="${producto.nombre}"></td>
+                                            <td th:text="${producto.precioFormateado}"></td>
+                                            <td>
+                                                <span class="badge" 
+                                                      th:classappend="${producto.stockBajo} ? 'bg-danger' : 'bg-success'"
+                                                      th:text="${producto.stock}"></span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div th:if="${productosMasVendidos == null or productosMasVendidos.empty}" class="text-center text-muted">
+                            <i class="fas fa-box fa-3x mb-3"></i>
+                            <p>No hay productos registrados</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-header bg-success text-white">
+                        <h5 class="mb-0">
+                            <i class="fas fa-user-plus me-2"></i>
+                            Clientes Recientes
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div th:if="${clientesRecientes != null and !clientesRecientes.empty}">
+                            <div th:each="cliente : ${clientesRecientes}" class="d-flex align-items-center mb-3">
+                                <div class="avatar avatar-sm rounded-circle bg-primary text-white me-3">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h6 class="mb-0" th:text="${cliente.nombreCompleto}"></h6>
+                                    <small class="text-muted" th:text="${cliente.dni}"></small>
+                                </div>
+                            </div>
+                        </div>
+                        <div th:if="${clientesRecientes == null or clientesRecientes.empty}" class="text-center text-muted">
+                            <i class="fas fa-users fa-3x mb-3"></i>
+                            <p>No hay clientes registrados</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer-todobarato text-center py-4 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>TODO BARATO</h5>
+                    <p class="mb-0">Minimarket de productos de consumo masivo</p>
+                </div>
+                <div class="col-md-6">
+                    <p class="mb-0">
+                        <i class="fas fa-map-marker-alt me-1"></i>
+                        Av. Universitaria, Los Olivos 15306
+                    </p>
+                    <p class="mb-0">
+                        <i class="fas fa-id-card me-1"></i>
+                        RUC: 20604093407
+                    </p>
+                </div>
+            </div>
+            <hr class="my-3">
+            <p class="mb-0">&copy; 2025 Minimarket TODO BARATO. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
